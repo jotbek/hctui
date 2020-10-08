@@ -1,16 +1,21 @@
 import urwid
+import HintPanelView
+import WidgetsAreaView
 
 
 class MainView:
     def __init__(self):
-        None
+        self.widgets_area_view = WidgetsAreaView.WidgetsAreaView()
+        self.bottom_menu_view = HintPanelView.HintPanelView()
+        self.update()
 
     def update(self):
-        None
+        self.widgets_area_view.update()
+        self.bottom_menu_view.update()
 
-    def getView(self):
+    def get_view(self):
         return urwid.LineBox(
-            original_widget=urwid.Filler(
-                body=urwid.Pile(widget_list=[urwid.Text('a'), urwid.Text('b')]),
-                valign='top'),
+            original_widget=urwid.Frame(
+                body=self.widgets_area_view.get_view(),
+                footer=self.bottom_menu_view.get_view()),
             title='hctui v.0.0.1')

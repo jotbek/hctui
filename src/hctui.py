@@ -21,7 +21,7 @@ def update(*args):
 
 mainView = MainView.MainView()
 loop = urwid.MainLoop(
-    widget=mainView.getView(),
+    widget=mainView.get_view(),
     palette=PALETTE,
     unhandled_input=exit_on_q,
     handle_mouse=True)
