@@ -24,6 +24,7 @@ loop = urwid.MainLoop(
     widget=mainView.get_view(),
     palette=PALETTE,
     unhandled_input=exit_on_q,
+
     handle_mouse=True)
 loop.set_alarm_in(0, update)
 loop.run()
