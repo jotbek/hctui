@@ -1,12 +1,27 @@
 import urwid
+import CpuStatsWidgetView
 
 
 def get_widgets(name):
     return {
-        'text1': urwid.Text('Example text 1'),
-        'text2': urwid.Text('Example text 2'),
-        'text3': urwid.Text('Example text 3'),
-        'text4': urwid.Text('Example text 4'),
-        'text5': urwid.Text('Example text 5'),
-        'text6': urwid.Text('Example text 6'),
+        'cpu': get_cpu_widget(),
+        'ram': get_ram_widget(),
+        'net': get_net_widget(),
+        'disk': get_disk_widget(),
     }[name]
+
+
+def get_cpu_widget():
+    return CpuStatsWidgetView.CpuStatsWidgetView().get_view()
+
+
+def get_ram_widget():
+    return urwid.LineBox(urwid.Text('-- RAM WIDGET --'))
+
+
+def get_net_widget():
+    return urwid.LineBox(urwid.Text('-- NET WIDGET --'))
+
+
+def get_disk_widget():
+    return urwid.LineBox(urwid.Text('-- DISK WIDGET --'))

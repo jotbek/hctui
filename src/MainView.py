@@ -9,9 +9,9 @@ class MainView:
         self.bottom_menu_view = HintPanelView.HintPanelView()
         self.update()
 
-    def update(self):
+    def update(self, key_stroke=None):
         self.widgets_area_view.update()
-        self.bottom_menu_view.update()
+        self.bottom_menu_view.update(key_stroke=key_stroke)
 
     def get_view(self):
         return urwid.LineBox(

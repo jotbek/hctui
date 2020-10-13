@@ -1,30 +1,34 @@
 import urwid
 import MainView
 
-POLL_INTERVAL_SEC = 5
+REFRESH_INTERVAL = 3
 PALETTE = []
 
 
 def exit_on_q(key):
+    global main_view
     if key in ('q', 'Q'):
         raise urwid.ExitMainLoop()
 
+    if key in ('up', 'down', 'left', 'right', 'insert', 'delete', 'enter', 'esc'):
+        main_view.update(key_stroke=key)
+
 
 def update(*args):
-    global mainView
+    global main_view
     global loop
 
-    mainView.update()
+    main_view.update()
     loop.draw_screen()
-    loop.set_alarm_in(POLL_INTERVAL_SEC, update)
+    loop.set_alarm_in(REFRESH_INTERVAL, update)
 
 
-mainView = MainView.MainView()
+main_view = MainView.MainView()
 loop = urwid.MainLoop(
-    widget=mainView.get_view(),
+    widget=main_view.get_view(),
     palette=PALETTE,
     unhandled_input=exit_on_q,
-
     handle_mouse=True)
+
 loop.set_alarm_in(0, update)
 loop.run()
