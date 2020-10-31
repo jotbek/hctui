@@ -2,8 +2,8 @@ class GenericWidget:
     def __init__(self, path):
         self.widgetsDict = {}
         self.parsedDefinition = []
-        self.loadWidgets(path)
 
+        self.loadWidgets(path)
         self.update()
 
     def loadWidgets(self, definitionPath):
@@ -18,12 +18,13 @@ class GenericWidget:
         pass
 
     def parseDefinition(self, definition):
-        pass
-# @0
-# @(repeat:@i,0,@cpu_count)
+        return "definition"
+
+# @new,@line_box
+# @json(repeat:@i,0,@cpu_count)
 #   {
 #       "progressBar": {
-#           "title": "cpu @i",
+#           "title": "cpu @i: ",
 #           "max": 100,
 #           "fColor": "green",
 #           "bColor": "lightGray",
@@ -31,12 +32,12 @@ class GenericWidget:
 #       }
 #   }
 #
-# @1
-# json
+# @new
+# @json
 #
-# @2
+# @new
 # @line
 #
-# @3
-# json
+# @new
+# @json
 #
