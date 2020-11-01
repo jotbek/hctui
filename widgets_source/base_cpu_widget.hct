@@ -18,14 +18,15 @@
         {
             @column(1)
             {
-                @json
+                @json_widget
                 {
-                    "progressBar": {
-                    "title": "Overall: ",
-                    "max": 100,
-                    "fColor": "green",
-                    "bColor": "lightGray",
-                    "value": "@cpu_stats.cpu_usage_total()"
+                    {"progressBar": {
+                        "title": "Overall: ",
+                        "max": 100,
+                        "fColor": "green",
+                        "bColor": "lightGray",
+                        "value": "@cpu_stats.cpu_usage_total()"
+                    }}
                 }
 
                 @line(gray)
@@ -36,15 +37,15 @@
         {
             @repeat(0, @i, @cpu_stats.cpu_count(), @columns(1,2))
             {
-                @json
+                @json_widget
                 {
-                    "progressBar": {
+                    {"progressBar": {
                         "title": "CPU#@i: ",
                         "max": 100,
                         "fColor": "green",
-                        "bColor": "lightGray", 
+                        "bColor": "lightGray",
                         "value": "@cpu_stats.cpu_usage_per_core()[@i]"
-                    } 
+                    }}
                 }
             }
         }
@@ -54,11 +55,11 @@
     {
         @json
         {
-            "chart": {
+            {"chart": {
                 "fColor": "green",
-                "bcolor": "lightGray",
+                "bColor": "lightGray",
                 "value": @cpu_stats.cpu_usage_total()
-            }
+            }}
         }
     }
 }
