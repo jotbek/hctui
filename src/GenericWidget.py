@@ -19,25 +19,3 @@ class GenericWidget:
 
     def parseDefinition(self, definition):
         return "definition"
-
-# @new,@line_box
-# @json(repeat:@i,0,@cpu_count)
-#   {
-#       "progressBar": {
-#           "title": "cpu @i: ",
-#           "max": 100,
-#           "fColor": "green",
-#           "bColor": "lightGray",
-#           "value": "@cpu_stats.cpu_usage_per_core()[@i]"
-#       }
-#   }
-#
-# @new
-# @json
-#
-# @new
-# @line
-#
-# @new
-# @json
-#
