@@ -31,7 +31,7 @@
                         },
                         {
                             "type":"repeat",
-                            "args":"0|@i|@cpu_stats.cpu_count()|2|1,2",
+                            "value":"0|@i|@cpu_stats.cpu_count()|2|1,2",
                             "content":{
                                 "type":"progress",
                                 "title":"CPU#@i",
