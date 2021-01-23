@@ -1,53 +1,46 @@
 {
     "definition" : {
-        "name":"base_cpu_widget",
-        "widget_version":"v0.1",
-        "language_version":1
+        "name": "base_cpu_widget",
+        "widget_version": "0.1",
+        "language_version": 1
     },
-    "import_source":[
-        { "name":"cpu_stats", "path":"./cpu_stats.py" }
+    "import_source": [
+        { "name": "cpu_stats", "path": "./../cpu_stats.py" }
     ],
-    "content":{
-        "type":"box",
-        "title":"CPU_STATS",
-        "show_box":true,
+    "content": {
+        "type": "box",
+        "properties": "title=\"CPU_STATS\";show_box=true",
         "content":{
-            "type":"columns",
+            "type": "columns",
             "content":[
                 { 
-                    "type":"pile", 
+                    "type": "pile",
                     "content":[
                         { 
-                            "type":"progress", 
-                            "title":"Overall: ", 
-                            "max":100, 
-                            "f_color":"darkGreen", 
-                            "b_color":"lightGray",
-                            "value":"@cpu_stats.cpu_usage_total()"
+                            "type": "progress",
+                            "value": "@cpu_stats.cpu_usage_total",
+                            "properties": "f_color=\"dark green\";b_color=\"light gray\";max=100;title=\"Overall\""
                         },
                         {
-                            "type":"line",
-                            "f_color":"darkGray"
+                            "type": "line",
+                            "properties": "f_color=\"dark gray\""
                         },
                         {
-                            "type":"repeat",
-                            "value":"0|@i|@cpu_stats.cpu_count()|2|1,2",
-                            "content":{
-                                "type":"progress",
-                                "title":"CPU#@i",
-                                "max":100,
-                                "f_color":"darkGreen",
-                                "b_color":"lightGray",
-                                "value":"@cpu_stats.cpu_usage_per_core()[@i]"
+                            "type": "repeatColumn",
+                            "value": "0;@cpu_stats.cpu_count;@i;2;1,2",
+                            "content": {
+                                "type": "progress",
+                                "value": "@cpu_stats.cpu_usage_per_core;@i",
+                                "properties": "title=\"CPU#@i\";max=100;f_color=\"dark green\";b_color=\"light green\""
                             }
                         }
                     ]
                 },
                 {
-                    "type":"chart",
-                    "f_color":"lightGreen",
-                    "b_color":"lightGray",
-                    "value":"@cpu_stats.cpu_usage_total()"
+                    "type": "chart",
+                    "f_color": "lightGreen",
+                    "b_color": "lightGray",
+                    "value": "@cpu_stats.cpu_usage_total"
                 }
             ]
         }        
