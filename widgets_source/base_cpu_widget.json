@@ -18,7 +18,7 @@
                     "content":[
                         { 
                             "type": "progress",
-                            "value": "@cpu_stats.cpu_usage_total",
+                            "value": "@cpu_stats.cpu_usage_total()",
                             "properties": "f_color=\"dark green\";b_color=\"light gray\";max=100;title=\"Overall\""
                         },
                         {
@@ -27,10 +27,10 @@
                         },
                         {
                             "type": "repeatColumn",
-                            "value": "0;@cpu_stats.cpu_count;@i;2;1,2",
+                            "value": "0;@cpu_stats.cpu_count();@i;2;1,2",
                             "content": {
                                 "type": "progress",
-                                "value": "@cpu_stats.cpu_usage_per_core;@i",
+                                "value": "@cpu_stats.cpu_usage_per_core();@i",
                                 "properties": "title=\"CPU#@i\";max=100;f_color=\"dark green\";b_color=\"light green\""
                             }
                         }
@@ -38,9 +38,8 @@
                 },
                 {
                     "type": "chart",
-                    "f_color": "lightGreen",
-                    "b_color": "lightGray",
-                    "value": "@cpu_stats.cpu_usage_total"
+                    "value": "@cpu_stats.cpu_usage_total()",
+                    "properties": "f_color=\"light green\";b_color=\"light gray\""
                 }
             ]
         }        
