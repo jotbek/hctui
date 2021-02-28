@@ -1,9 +1,12 @@
-class WidgetsAreaView:
-    def __init__(self):
-        pass
+import urwid
+import widget_composer
 
+definition_path = '../widgets_source/test_cpu_widget.json'
+
+
+class WidgetsAreaView:
     def get_view(self):
-        pass
+        return widget_composer.load(definition_path)
 
     def update(self):
-        pass
+        widget_composer.load(definition_path)

@@ -10,7 +10,7 @@ def exit_on_q(key):
     if key in ('q', 'Q'):
         raise urwid.ExitMainLoop()
 
-    if key in ('up', 'down', 'left', 'right', 'insert', 'delete', 'enter', 'esc'):
+    if key in ('up', 'down', 'left', 'right', 'insert', 'delete', 'enter', 'esc', ' '):
         main_view.update(key_stroke=key)
 
 

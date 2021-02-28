@@ -1,0 +1,24 @@
+{
+    "definition" : {
+        "name": "base_cpu_widget",
+        "widget_version": "0.1",
+        "language_version": 1
+    },
+    "import_source": [
+        { "name": "cpu_stats", "path": "./../cpu_stats.py" }
+    ],
+    "content": {
+        "type": "box",
+        "properties": "title=\"CPU_STATS\";show_box=true",
+        "content":{
+            "type": "columns",
+            "content":[
+                {
+                    "type": "text",
+                    "value": "one two three text",
+                    "properties": "align=\"right\""
+                }
+            ]
+        }
+    }
+}
