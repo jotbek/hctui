@@ -7,18 +7,38 @@
     "import_source": [
         { "name": "cpu_stats", "path": "./../cpu_stats.py" }
     ],
-    "content": {
-        "type": "box",
-        "properties": "title=\"CPU_STATS\";show_box=true",
-        "content":{
-            "type": "columns",
-            "content":[
+    "content": [
+        {
+            "widget_type": "columns",
+            "content": [
                 {
-                    "type": "text",
-                    "value": "one two three text",
-                    "properties": "align=\"right\""
+                    "widget_type": "box",
+                    "properties": "title=internal CPU_STATS1;show_box=true",
+                    "content": {
+                        "widget_type": "text",
+                        "value": "one two three text widget test",
+                        "properties": "align=right"
+                    }
+                },
+                {
+                    "widget_type": "box",
+                    "properties": "title=internal CPU_STATS2;show_box=true",
+                    "content": {
+                        "widget_type": "text",
+                        "value": "one two three text widget test",
+                        "properties": "align=right"
+                    }
                 }
             ]
+        },
+        {
+            "widget_type": "box",
+            "properties": "title=CPU_STATS3;show_box=true",
+            "content": {
+                "widget_type": "text",
+                "value": "one two three text widget test",
+                "properties": "align=right"
+            }
         }
-    }
+    ]
 }

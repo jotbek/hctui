@@ -2,6 +2,8 @@ import urwid
 import HintPanelView
 import WidgetsAreaView
 
+HCTUI_VERSION = '0.0.2'
+
 
 class MainView:
     def __init__(self):
@@ -14,7 +16,7 @@ class MainView:
             original_widget=urwid.Frame(
                 body=self.widgets_area_view.get_view(),
                 footer=self.bottom_menu_view.get_view()),
-            title='hctui v.0.0.1')
+            title='hctui v.' + HCTUI_VERSION)
 
     def update(self, key_stroke=None):
         self.widgets_area_view.update()

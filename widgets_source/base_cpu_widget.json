@@ -8,28 +8,28 @@
         { "name": "cpu_stats", "path": "./../cpu_stats.py" }
     ],
     "content": {
-        "type": "box",
+        "widget_type": "box",
         "properties": "title=\"CPU_STATS\";show_box=true",
         "content":{
-            "type": "columns",
+            "widget_type": "columns",
             "content":[
                 { 
-                    "type": "pile",
+                    "widget_type": "pile",
                     "content":[
                         { 
-                            "type": "progress",
+                            "widget_type": "progress",
                             "value": "@cpu_stats.cpu_usage_total()",
                             "properties": "f_color=\"dark green\";b_color=\"light gray\";max=100;title=\"Overall\""
                         },
                         {
-                            "type": "line",
+                            "widget_type": "line",
                             "properties": "f_color=\"dark gray\""
                         },
                         {
-                            "type": "repeatColumn",
+                            "widget_type": "repeatColumn",
                             "value": "0;@cpu_stats.cpu_count();@i;2;1,2",
                             "content": {
-                                "type": "progress",
+                                "widget_type": "progress",
                                 "value": "@cpu_stats.cpu_usage_per_core();@i",
                                 "properties": "title=\"CPU#@i\";max=100;f_color=\"dark green\";b_color=\"light green\""
                             }
@@ -37,7 +37,7 @@
                     ]
                 },
                 {
-                    "type": "chart",
+                    "widget_type": "chart",
                     "value": "@cpu_stats.cpu_usage_total()",
                     "properties": "f_color=\"light green\";b_color=\"light gray\""
                 }
