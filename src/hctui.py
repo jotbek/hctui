@@ -2,7 +2,10 @@ import urwid
 import MainView
 
 REFRESH_INTERVAL = 3
-PALETTE = []
+PALETTE = [
+    ('progress normal', 'white', 'dark gray', 'standout'),
+    ('progress complete', 'white', 'dark green')
+]
 
 
 def exit_on_q(key):

@@ -5,7 +5,7 @@
         "language_version": 1
     },
     "import_source": [
-        { "name": "cpu_stats", "path": "./../cpu_stats.py" }
+        { "name": "cpu_stats", "path": "cpu_stats" }
     ],
     "content": [
         {
@@ -16,18 +16,32 @@
                     "properties": "title=internal CPU_STATS1;show_box=true",
                     "content": {
                         "widget_type": "text",
-                        "value": "one two three text widget test",
-                        "properties": "align=right"
+                        "properties": "align=center;value=one two three text widget test"
                     }
                 },
                 {
                     "widget_type": "box",
-                    "properties": "title=internal CPU_STATS2;show_box=true",
+                    "properties": "title=internal CPU_STATS1;show_box=true",
                     "content": {
-                        "widget_type": "text",
-                        "value": "one two three text widget test",
-                        "properties": "align=right"
+                        "widget_type": "pile",
+                        "content": [
+                            {
+                                "widget_type": "progress",
+                                "properties": "f_color=dark green;b_color=light gray;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
+                            },
+                            {
+                                "widget_type": "divider"
+                            },
+                            {
+                                "widget_type": "progress",
+                                "properties": "f_color=dark green;b_color=light gray;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
+                            }
+                        ]
                     }
+                },
+                {
+                    "widget_type": "text",
+                    "properties": "align=center;value=some value to text out"
                 }
             ]
         },
@@ -36,8 +50,7 @@
             "properties": "title=CPU_STATS3;show_box=true",
             "content": {
                 "widget_type": "text",
-                "value": "one two three text widget test",
-                "properties": "align=right"
+                "properties": "align=center;value=one two three text widget test"
             }
         }
     ]

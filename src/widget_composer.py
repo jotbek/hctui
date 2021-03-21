@@ -1,5 +1,6 @@
 import urwid
 import json
+import importlib
 from types import SimpleNamespace
 
 
@@ -17,8 +18,17 @@ def load_json(path):
 def interpret_definition(widget_definition):
     # Read definition
     # Read import source
+    modules = import_modules(widget_definition.import_source)
+
     # Read content (widget)
     return create_pile(widget_definition)
+
+
+def import_modules(import_source):
+    modules = {}
+    for current_module in import_source:
+        modules[current_module.name] = importlib.import_module(current_module.name, current_module)
+    return modules
 
 
 def read_content(widget_def):
@@ -26,18 +36,19 @@ def read_content(widget_def):
         'box': lambda: create_box(widget_def),
         'text': lambda: create_text(widget_def),
         'columns': lambda: create_columns(widget_def),
-        'pile': lambda: create_pile(widget_def)
+        'pile': lambda: create_pile(widget_def),
+        'progress': lambda: create_progress(widget_def),
+        'divider': lambda: create_divider(widget_def),
+
+        # TODO
+        'repeatColumn': lambda: create_divider(widget_def)
     }
     return switcher.get(widget_def.widget_type, 'Invalid widget type -> ' + widget_def.widget_type)()
 
 
 def create_box(box_widget_def):
     properties = get_properties(box_widget_def.properties)
-    return urwid.LineBox(urwid.Filler(read_content(box_widget_def.content)), title=properties['title'])
-
-
-def create_text(text_widget_def):
-    return urwid.Text(text_widget_def.value, align='center')
+    return urwid.LineBox(read_content(box_widget_def.content), title=properties['title'])
 
 
 def create_columns(columns_widget_def):
@@ -53,6 +64,19 @@ def create_pile(pile_widget_def):
     for current_widget in pile_widget_def.content:
         pile_widgets.append(read_content(current_widget))
     return urwid.Pile(pile_widgets)
+
+
+def create_divider(divider_widget_def):
+    return urwid.Filler(urwid.Divider(u'='))
+
+
+def create_text(text_widget_def):
+    properties = get_properties(text_widget_def.properties)
+    return urwid.Filler(urwid.Text(properties['value'], align=properties['align']))
+
+
+def create_progress(progress_widget_def):
+    return urwid.Filler(urwid.ProgressBar('progress normal', 'progress complete', current=67, done=100))
 
 
 def get_properties(properties_str):
