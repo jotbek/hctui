@@ -27,14 +27,15 @@
                         "content": [
                             {
                                 "widget_type": "progress",
-                                "properties": "f_color=dark green;b_color=light gray;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
+                                "properties": "style_normal=progress normal;style_complete=progress complete;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
                             },
                             {
-                                "widget_type": "divider"
+                                "widget_type": "divider",
+                                "properties": "char=*"
                             },
                             {
                                 "widget_type": "progress",
-                                "properties": "f_color=dark green;b_color=light gray;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
+                                "properties": "style_normal=progress normal;style_complete=progress complete;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
                             }
                         ]
                     }

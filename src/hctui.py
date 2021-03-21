@@ -1,14 +1,21 @@
 import urwid
 import MainView
+import re
 
-REFRESH_INTERVAL = 3
-PALETTE = [
-    ('progress normal', 'white', 'dark gray', 'standout'),
-    ('progress complete', 'white', 'dark green')
-]
+REFRESH_INTERVAL = 2
 
 
-def exit_on_q(key):
+def palette_configuration(file_path):
+    styles = []
+    with open(file_path) as fp:
+        for line in fp:
+            line = line.strip()
+            if re.match(r'\S', line) and not line.startswith('#'):
+                styles.append(tuple([s.strip() for s in line.split(';')]))
+    return styles
+
+
+def handle_keyboard(key):
     global main_view
     if key in ('q', 'Q'):
         raise urwid.ExitMainLoop()
@@ -26,11 +33,12 @@ def update(*args):
     loop.set_alarm_in(REFRESH_INTERVAL, update)
 
 
+PALETTE = palette_configuration('palette.config')
 main_view = MainView.MainView()
 loop = urwid.MainLoop(
     widget=main_view.get_view(),
     palette=PALETTE,
-    unhandled_input=exit_on_q,
+    unhandled_input=handle_keyboard,
     handle_mouse=False)
 
 loop.set_alarm_in(0, update)

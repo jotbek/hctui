@@ -19,24 +19,24 @@
                         "content": [
                             {
                                 "widget_type": "progress",
-                                "properties": "f_color=dark green;b_color=light gray;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
+                                "properties": "style_normal=progress normal;style_complete=progress complete;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
                             },
                             {
                                 "widget_type": "divider",
-                                "properties": "f_color=\"dark gray\""
+                                "properties": "f_color=dark gray;char=*"
                             },
                             {
                                 "widget_type": "repeatColumn",
                                 "content": {
                                     "widget_type": "progress",
-                                    "properties": "title=CPU#@i;max=100;f_color=dark green;b_color=light green;value=0;@cpu_stats.cpu_count();@i;2;1,2"
+                                    "properties": "title=CPU#@i;max=100;style_normal=progress normal;style_complete=progress complete;value=0;@cpu_stats.cpu_count();@i;2;1,2"
                                 }
                             }
                         ]
                     },
                     {
                         "widget_type": "progress",
-                        "properties": "f_color=\"light green\";b_color=\"light gray\";value=@cpu_stats.cpu_usage_total()"
+                        "properties": "style_normal=progress normal;style_complete=progress complete;value=@cpu_stats.cpu_usage_total()"
                     }
                 ]
             }
