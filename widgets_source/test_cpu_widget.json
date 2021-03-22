@@ -13,7 +13,7 @@
             "content": [
                 {
                     "widget_type": "box",
-                    "properties": "title=internal CPU_STATS1;show_box=true",
+                    "properties": "title=internal CPU_STATS1",
                     "content": {
                         "widget_type": "text",
                         "properties": "align=center;value=one two three text widget test"
@@ -21,7 +21,7 @@
                 },
                 {
                     "widget_type": "box",
-                    "properties": "title=internal CPU_STATS1;show_box=true",
+                    "properties": "title=internal CPU_STATS1",
                     "content": {
                         "widget_type": "pile",
                         "content": [
@@ -48,7 +48,7 @@
         },
         {
             "widget_type": "box",
-            "properties": "title=CPU_STATS3;show_box=true",
+            "properties": "title=CPU_STATS3",
             "content": {
                 "widget_type": "text",
                 "properties": "align=center;value=one two three text widget test"

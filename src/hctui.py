@@ -2,7 +2,7 @@ import urwid
 import MainView
 import re
 
-REFRESH_INTERVAL = 2
+REFRESH_INTERVAL = 4
 
 
 def palette_configuration(file_path):

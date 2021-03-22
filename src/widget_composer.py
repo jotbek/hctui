@@ -1,7 +1,10 @@
 import urwid
 import json
 import importlib
+import re
 from types import SimpleNamespace
+
+dynamic_modules = {}
 
 
 def load(path):
@@ -16,9 +19,10 @@ def load_json(path):
 
 
 def interpret_definition(widget_definition):
+    global dynamic_modules
     # Read definition
     # Read import source
-    modules = import_modules(widget_definition)
+    dynamic_modules = import_modules(widget_definition)
 
     # Read content (widget)
     return create_pile(widget_definition)
@@ -43,7 +47,7 @@ def read_content(widget_def):
         'divider': lambda: create_divider(widget_def),
 
         # TODO
-        'repeatColumn': lambda: create_divider(widget_def)
+        'repeat_column': lambda: create_divider(widget_def)
     }
     return switcher.get(widget_def.widget_type, 'Invalid widget type -> ' + widget_def.widget_type)()
 
@@ -57,7 +61,6 @@ def create_columns(columns_widget_def):
     widget_columns = []
     for current_widget in columns_widget_def.content:
         widget_columns.append(read_content(current_widget))
-
     return urwid.Columns(widget_columns)
 
 
@@ -84,12 +87,25 @@ def create_progress(progress_widget_def):
         urwid.ProgressBar(
             normal=properties.get('style_normal', 'progress normal'),
             complete=properties.get('style_complete', 'progress complete'),
-            current=67,
+            current=int(float(properties.get('value'))),
             done=100))
 
 
 def get_properties(widget_def):
-    a = {}
+    properties = {}
     if not hasattr(widget_def, 'properties'):
-        return a
-    return dict(x.split('=') for x in widget_def.properties.split(';'))
+        return properties
+    properties = dict(x.split('=') for x in widget_def.properties.split(';'))
+    for key, token_value in properties.items():
+        properties[key] = resolve_token(widget_def, token_value)
+    return properties
+
+
+def resolve_token(widget_def, token):
+    for module_name, module in dynamic_modules.items():
+        current_module = '@' + module_name + '.'
+        while token.find(current_module) != -1:
+            method_name = token.split(current_module, 1)[1].split(';', 1)[0]
+            replacement_value = str(getattr(module, re.sub('[()]', '', method_name))())
+            token = re.sub(current_module + method_name + r'\(\)', replacement_value, token)
+    return token
