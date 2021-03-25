@@ -2,7 +2,7 @@ import urwid
 import MainView
 import re
 
-REFRESH_INTERVAL = 4
+REFRESH_INTERVAL = 1
 
 
 def palette_configuration(file_path):
@@ -28,15 +28,14 @@ def update(*args):
     global main_view
     global loop
 
-    main_view.update()
-    loop.draw_screen()
+    loop.widget = main_view.get_view()
     loop.set_alarm_in(REFRESH_INTERVAL, update)
 
 
 PALETTE = palette_configuration('palette.config')
 main_view = MainView.MainView()
 loop = urwid.MainLoop(
-    widget=main_view.get_view(),
+    widget=None,
     palette=PALETTE,
     unhandled_input=handle_keyboard,
     handle_mouse=False)

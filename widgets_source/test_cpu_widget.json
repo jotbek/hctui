@@ -30,8 +30,17 @@
                                 "properties": "style_normal=progress normal;style_complete=progress complete;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
                             },
                             {
+                                "widget_type": "progress",
+                                "properties": "style_normal=progress normal;style_complete=progress complete;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
+                            },
+                            {
+                                "widget_type": "progress",
+                                "properties": "style_normal=progress normal;style_complete=progress complete;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
+                            },
+
+                            {
                                 "widget_type": "divider",
-                                "properties": "char=*"
+                                "properties": "char=+"
                             },
                             {
                                 "widget_type": "progress",

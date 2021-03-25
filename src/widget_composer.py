@@ -87,8 +87,8 @@ def create_progress(progress_widget_def):
         urwid.ProgressBar(
             normal=properties.get('style_normal', 'progress normal'),
             complete=properties.get('style_complete', 'progress complete'),
-            current=int(float(properties.get('value'))),
-            done=100))
+            current=int(float(properties.get('value', 77))),
+            done=int(properties.get('max', 100))))
 
 
 def get_properties(widget_def):
