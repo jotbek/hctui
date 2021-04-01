@@ -83,11 +83,12 @@ def create_text(text_widget_def):
 
 def create_progress(progress_widget_def):
     properties = get_properties(progress_widget_def)
+    v = int(float(properties.get('value', 77)))
     return urwid.Filler(
         urwid.ProgressBar(
             normal=properties.get('style_normal', 'progress normal'),
             complete=properties.get('style_complete', 'progress complete'),
-            current=int(float(properties.get('value', 77))),
+            current=v,
             done=int(properties.get('max', 100))))
 
 
