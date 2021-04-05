@@ -1,10 +1,10 @@
 import urwid
 import json
 import importlib
-import re
 from types import SimpleNamespace
+import math
 
-dynamic_modules = {}
+external_dependencies = {}
 
 
 def load(path):
@@ -18,11 +18,14 @@ def load_json(path):
     return json.loads(f.read(), object_hook=lambda d: SimpleNamespace(**d))
 
 
+# noinspection PyTypeChecker
 def interpret_definition(widget_definition):
-    global dynamic_modules
+    global external_dependencies
     # Read definition
-    # Read import source
-    dynamic_modules = import_modules(widget_definition)
+    # Read import source and add math library for math operations
+    external_dependencies = import_modules(widget_definition)
+    external_dependencies['math'] = math
+    external_dependencies['str'] = str
 
     # Read content (widget)
     return create_pile(widget_definition)
@@ -47,7 +50,7 @@ def read_content(widget_def):
         'divider': lambda: create_divider(widget_def),
 
         # TODO
-        'repeat_column': lambda: create_divider(widget_def)
+        'repeat_columns': lambda: create_repeat_columns(widget_def)
     }
     return switcher.get(widget_def.widget_type, 'Invalid widget type -> ' + widget_def.widget_type)()
 
@@ -92,21 +95,43 @@ def create_progress(progress_widget_def):
             done=int(properties.get('max', 100))))
 
 
+def create_repeat_columns(repeat_columns_widget_def):
+    global external_dependencies
+    # Read relevant properties with default values
+    properties = get_properties(repeat_columns_widget_def)
+    _from = int(properties.get('from', ''))
+    to = int(properties.get('to', ''))
+    no_columns = int(properties.get('no_columns', str(to - _from)))
+    loop_in_columns = list(properties.get('loop_in_columns', str(no_columns)).split(','))
+
+    # Generate empty list of lists which become later a input for a Pile
+    widget_columns = [[] for _ in range(0, no_columns)]
+    idx = 0
+    for x in range(_from, to + 1):
+        # change a value of a variable when resolving token (it is included in locals())
+        external_dependencies[properties.get('variable', 'i')] = x
+        if idx > len(loop_in_columns) - 1:
+            idx = 0
+        widget_columns[int(loop_in_columns[idx])].append(read_content(repeat_columns_widget_def.content))
+        idx += 1
+
+    for x in range(0, no_columns):
+        widget_columns[x] = urwid.Pile(widget_columns[x])
+    return urwid.Columns(widget_columns)
+
+
 def get_properties(widget_def):
     properties = {}
     if not hasattr(widget_def, 'properties'):
         return properties
     properties = dict(x.split('=') for x in widget_def.properties.split(';'))
     for key, token_value in properties.items():
-        properties[key] = resolve_token(widget_def, token_value)
+        properties[key] = \
+            resolve_token(widget_def, token_value) if token_value.startswith('@') else token_value
     return properties
 
 
 def resolve_token(widget_def, token):
-    for module_name, module in dynamic_modules.items():
-        current_module = '@' + module_name + '.'
-        while token.find(current_module) != -1:
-            method_name = token.split(current_module, 1)[1].split(';', 1)[0]
-            replacement_value = str(getattr(module, re.sub('[()]', '', method_name))())
-            token = re.sub(current_module + method_name + r'\(\)', replacement_value, token)
-    return token
+    global external_dependencies
+    result = eval(token[1:], {'__builtins__': None}, external_dependencies)
+    return result

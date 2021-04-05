@@ -27,7 +27,7 @@
                             },
                             {
                                 "widget_type": "repeat_column",
-                                "properties": "variable=i;range_min=0;range_max=@cpu_stats.cpu_count();step=1;no_columns=3;loop_in_columns=0,2",
+                                "properties": "variable=i;range_min=0;range_max=@cpu_stats.cpu_count()-1;step=1;no_columns=3;loop_in_columns=0,2",
                                 "content": {
                                     "widget_type": "progress",
                                     "properties": "title=CPU#@i;max=100;style_normal=progress normal;style_complete=progress complete"

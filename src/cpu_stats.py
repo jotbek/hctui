@@ -1,5 +1,4 @@
 import psutil
-import time
 
 
 def cpu_count(logical=True):
@@ -15,12 +14,11 @@ def cpu_freq():
 
 
 def cpu_usage_per_core():
-    result = []
-    for i, percentage in enumerate(psutil.cpu_percent(percpu=True, interval=0.1)):
-        result.append((i, percentage))
-    return result
+    return psutil.cpu_percent(percpu=True, interval=0.1)
 
 
 def cpu_usage_total():
     result = psutil.cpu_percent(interval=0.1)
     return result
+
+# TODO ADD SOME KIND OF CACHING TO CALL TO THE SAME FUNCTION RETURN THE SAME VALUE

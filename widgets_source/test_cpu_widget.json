@@ -1,7 +1,7 @@
 {
     "definition" : {
         "name": "base_cpu_widget",
-        "widget_version": "0.1",
+        "widget_version": "0.2",
         "language_version": 1
     },
     "import_source": [
@@ -13,15 +13,19 @@
             "content": [
                 {
                     "widget_type": "box",
-                    "properties": "title=internal CPU_STATS1",
+                    "properties": "title=Core utilization",
                     "content": {
-                        "widget_type": "text",
-                        "properties": "align=center;value=one two three text widget test"
+                        "widget_type": "repeat_columns",
+                        "properties": "variable=i;from=0;to=@cpu_stats.cpu_count()-1;no_columns=1;loop_in_columns=0",
+                        "content": {
+                            "widget_type": "text",
+                            "properties": "align=center;value=@'core #' + str(i) + ': ' + str(cpu_stats.cpu_usage_per_core()[i])"
+                        }
                     }
                 },
                 {
                     "widget_type": "box",
-                    "properties": "title=internal CPU_STATS1",
+                    "properties": "title=General usage",
                     "content": {
                         "widget_type": "pile",
                         "content": [
@@ -30,12 +34,8 @@
                                 "properties": "style_normal=progress normal;style_complete=progress complete;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
                             },
                             {
-                                "widget_type": "divider",
-                                "properties": "char=+"
-                            },
-                            {
-                                "widget_type": "progress",
-                                "properties": "style_normal=progress normal;style_complete=progress complete;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
+                                "widget_type": "text",
+                                "properties": "align=center;value=@'total: ' + str(cpu_stats.cpu_usage_total())"
                             }
                         ]
                     }
@@ -50,8 +50,12 @@
             "widget_type": "box",
             "properties": "title=CPU_STATS3",
             "content": {
-                "widget_type": "text",
-                "properties": "align=center;value=one two three text widget test"
+                "widget_type": "repeat_columns",
+                "properties": "variable=i;from=0;to=@cpu_stats.cpu_count()-1;no_columns=3;loop_in_columns=0",
+                "content": {
+                    "widget_type": "progress",
+                    "properties": "max=100;style_normal=progress normal;style_complete=progress complete;value=@cpu_stats.cpu_usage_per_core()[i]"
+                }
             }
         }
     ]
