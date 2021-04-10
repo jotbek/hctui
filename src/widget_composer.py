@@ -5,11 +5,14 @@ from types import SimpleNamespace
 import math
 
 external_dependencies = {}
+widget_definition_cache = {}
 
 
 def load(path):
-    widget_definition = load_json(path)
-    widget_interpreted = interpret_definition(widget_definition)
+    global widget_definition_cache
+    if path not in widget_definition_cache:
+        widget_definition_cache[path] = load_json(path)
+    widget_interpreted = interpret_definition(widget_definition_cache.get(path))
     return widget_interpreted
 
 
