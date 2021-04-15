@@ -10,9 +10,10 @@ widget_definition_cache = {}
 
 def load(path):
     global widget_definition_cache
-    if path not in widget_definition_cache:
-        widget_definition_cache[path] = load_json(path)
-    widget_interpreted = interpret_definition(widget_definition_cache.get(path))
+    if path not in widget_definition_cache or widget_definition_cache[path][1]:
+        widget_definition_cache[path] = (load_json(path), True)
+
+    widget_interpreted = interpret_definition(widget_definition_cache[path][0])
     return widget_interpreted
 
 
@@ -51,16 +52,21 @@ def read_content(widget_def):
         'pile': lambda: create_pile(widget_def),
         'progress': lambda: create_progress(widget_def),
         'divider': lambda: create_divider(widget_def),
-
-        # TODO
-        'repeat_columns': lambda: create_repeat_columns(widget_def)
+        'repeat_columns': lambda: create_repeat_columns(widget_def),
+        'none': lambda: create_none()
     }
     return switcher.get(widget_def.widget_type, 'Invalid widget type -> ' + widget_def.widget_type)()
 
 
+def create_none():
+    return urwid.SolidFill(fill_char='$')
+
+
 def create_box(box_widget_def):
     properties = get_properties(box_widget_def)
-    return urwid.LineBox(read_content(box_widget_def.content), title=properties.get('title', ''))
+    return urwid.LineBox(
+        original_widget=read_content(box_widget_def.content),
+        title=properties.get('title', ''))
 
 
 def create_columns(columns_widget_def):
@@ -84,18 +90,20 @@ def create_divider(divider_widget_def):
 
 def create_text(text_widget_def):
     properties = get_properties(text_widget_def)
-    return urwid.Filler(urwid.Text(properties.get('value', ''), align=properties.get('align', 'center')))
+    return urwid.Filler(
+        body=urwid.Text(properties.get('value', ''), align=properties.get('align', 'center')),
+        valign='top')
 
 
 def create_progress(progress_widget_def):
     properties = get_properties(progress_widget_def)
-    v = int(float(properties.get('value', 77)))
     return urwid.Filler(
-        urwid.ProgressBar(
+        body=urwid.ProgressBar(
             normal=properties.get('style_normal', 'progress normal'),
             complete=properties.get('style_complete', 'progress complete'),
-            current=v,
-            done=int(properties.get('max', 100))))
+            current=int(float(properties.get('value', '99'))),
+            done=int(properties.get('max', 100))),
+        valign='top')
 
 
 def create_repeat_columns(repeat_columns_widget_def):
