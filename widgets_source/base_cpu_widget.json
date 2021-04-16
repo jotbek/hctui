@@ -58,13 +58,6 @@
                     "properties": "max=100;style_normal=progress normal;style_complete=progress complete;value=@cpu_stats.cpu_usage_per_core()[i]"
                 }
             }
-        },
-        {
-            "widget_type": "box",
-            "properties": "title=CPU_STATS3",
-            "content": {
-                "widget_type": "none"
-            }
         }
     ]
 }

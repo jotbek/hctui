@@ -32,7 +32,7 @@ def interpret_definition(widget_definition):
     external_dependencies['str'] = str
 
     # Read content (widget)
-    return create_pile(widget_definition)
+    return urwid.Filler(create_pile(widget_definition), 'top')
 
 
 def import_modules(widget_def):
@@ -83,6 +83,13 @@ def create_pile(pile_widget_def):
     return urwid.Pile(pile_widgets)
 
 
+def create_listbox(listbox_widget_def):
+    listbox_widgets = []
+    for current_widget in listbox_widget_def.content:
+        listbox_widgets.append(read_content(current_widget))
+    return urwid.ListBox()
+
+
 def create_divider(divider_widget_def):
     properties = get_properties(divider_widget_def)
     return urwid.Filler(urwid.Divider(properties.get('char', '=')))
@@ -90,12 +97,26 @@ def create_divider(divider_widget_def):
 
 def create_text(text_widget_def):
     properties = get_properties(text_widget_def)
+    return urwid.Text(properties.get('value', ''), align=properties.get('align', 'center'))
+
+
+def create_text2(text_widget_def):
+    properties = get_properties(text_widget_def)
     return urwid.Filler(
         body=urwid.Text(properties.get('value', ''), align=properties.get('align', 'center')),
         valign='top')
 
 
 def create_progress(progress_widget_def):
+    properties = get_properties(progress_widget_def)
+    return urwid.ProgressBar(
+            normal=properties.get('style_normal', 'progress normal'),
+            complete=properties.get('style_complete', 'progress complete'),
+            current=int(float(properties.get('value', '99'))),
+            done=int(properties.get('max', 100)))
+
+
+def create_progress2(progress_widget_def):
     properties = get_properties(progress_widget_def)
     return urwid.Filler(
         body=urwid.ProgressBar(
