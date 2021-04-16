@@ -100,13 +100,6 @@ def create_text(text_widget_def):
     return urwid.Text(properties.get('value', ''), align=properties.get('align', 'center'))
 
 
-def create_text2(text_widget_def):
-    properties = get_properties(text_widget_def)
-    return urwid.Filler(
-        body=urwid.Text(properties.get('value', ''), align=properties.get('align', 'center')),
-        valign='top')
-
-
 def create_progress(progress_widget_def):
     properties = get_properties(progress_widget_def)
     return urwid.ProgressBar(
@@ -116,25 +109,18 @@ def create_progress(progress_widget_def):
             done=int(properties.get('max', 100)))
 
 
-def create_progress2(progress_widget_def):
-    properties = get_properties(progress_widget_def)
-    return urwid.Filler(
-        body=urwid.ProgressBar(
-            normal=properties.get('style_normal', 'progress normal'),
-            complete=properties.get('style_complete', 'progress complete'),
-            current=int(float(properties.get('value', '99'))),
-            done=int(properties.get('max', 100))),
-        valign='top')
-
-
 def create_repeat_columns(repeat_columns_widget_def):
     global external_dependencies
     # Read relevant properties with default values
     properties = get_properties(repeat_columns_widget_def)
-    _from = int(properties.get('from', ''))
+    _from = int(properties.get('from', '0'))
     to = int(properties.get('to', ''))
     no_columns = int(properties.get('no_columns', str(to - _from)))
-    loop_in_columns = list(properties.get('loop_in_columns', str(no_columns)).split(','))
+    loop_in_columns = list(
+        properties.get(
+            'loop_in_columns',
+            ','.join(str(x) for x in range(no_columns)))
+        .split(','))
 
     # Generate empty list of lists which become later a input for a Pile
     widget_columns = [[] for _ in range(0, no_columns)]

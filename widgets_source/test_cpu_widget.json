@@ -52,13 +52,13 @@
             "properties": "title=CPU_STATS3",
             "content": {
                 "widget_type": "repeat_columns",
-                "properties": "variable=i;from=0;to=@cpu_stats.cpu_count()-1;no_columns=3;loop_in_columns=0,1,2",
+                "properties": "variable=i;from=0;to=@cpu_stats.cpu_count()-1;no_columns=@cpu_stats.cpu_count()",
                 "content": {
                     "widget_type": "columns",
                     "content": [
                         {
                             "widget_type": "text",
-                            "properties": "value=@'core #' + str(i) + ':'"
+                            "properties": "value=@' core#' + str(i) + ':'"
                         },
                         {
                             "widget_type": "progress",
