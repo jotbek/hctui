@@ -53,13 +53,19 @@ def read_content(widget_def):
         'progress': lambda: create_progress(widget_def),
         'divider': lambda: create_divider(widget_def),
         'repeat_columns': lambda: create_repeat_columns(widget_def),
-        'none': lambda: create_none()
+        'graph': lambda: create_graph(widget_def)
     }
     return switcher.get(widget_def.widget_type, 'Invalid widget type -> ' + widget_def.widget_type)()
 
 
-def create_none():
-    return urwid.SolidFill(fill_char='$')
+def create_graph(graph_widget_def):
+    properties = get_properties(graph_widget_def)
+    cpuBarGraph = urwid.BarGraph(
+        ['bg background', 'bg 1', 'bg 2'],
+        satt={(1, 0): 'bg 1 smooth', (2, 0): 'bg 2 smooth'})
+    graph_data = properties.get('value', [0] * 20)
+    cpuBarGraph.set_data(list(zip(graph_data, [0] * len(graph_data))), 100.0)
+    return urwid.BoxAdapter(cpuBarGraph, 5)
 
 
 def create_box(box_widget_def):

@@ -42,8 +42,11 @@
                     }
                 },
                 {
-                    "widget_type": "text",
-                    "properties": "align=center;value=some value to text out"
+                    "widget_type": "box",
+                    "content": {
+                        "widget_type": "graph",
+                        "properties": "value=@cpu_stats.cpu_values()"
+                    }
                 }
             ]
         },
@@ -66,6 +69,13 @@
                         }
                     ]
                 }
+            }
+        },
+        {
+            "widget_type": "box",
+            "content": {
+                "widget_type": "text",
+                "properties": "value=Siema zioaaamy!"
             }
         }
     ]

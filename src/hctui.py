@@ -10,7 +10,7 @@ def palette_configuration(file_path):
     with open(file_path) as fp:
         for line in fp:
             line = line.strip()
-            if re.match(r'\S', line) and not line.startswith('#'):
+            if not line.startswith('#') and re.match(r'\S', line):
                 styles.append(tuple([s.strip() for s in line.split(';')]))
     return styles
 
