@@ -45,7 +45,7 @@
                     "widget_type": "box",
                     "content": {
                         "widget_type": "graph",
-                        "properties": "value=@cpu_stats.cpu_values()"
+                        "properties": "value=@cpu_stats.cpu_values();height=@cpu_stats.cpu_count()"
                     }
                 }
             ]
@@ -74,8 +74,8 @@
         {
             "widget_type": "box",
             "content": {
-                "widget_type": "text",
-                "properties": "value=Siema zioaaamy!"
+                "widget_type": "graph",
+                "properties": "value=@cpu_stats.cpu_values();height=@cpu_stats.cpu_count()"
             }
         }
     ]

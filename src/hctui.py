@@ -2,7 +2,7 @@ import urwid
 import MainView
 import re
 
-REFRESH_INTERVAL = 1
+REFRESH_INTERVAL_MS = 1000
 
 
 def palette_configuration(file_path):
@@ -17,19 +17,27 @@ def palette_configuration(file_path):
 
 def handle_keyboard(key):
     global main_view
+    global REFRESH_INTERVAL_MS
     if key in ('q', 'Q'):
         raise urwid.ExitMainLoop()
 
-    if key in ('up', 'down', 'left', 'right', 'insert', 'delete', 'enter', 'esc', ' '):
-        main_view.update(key_stroke=key)
+    if key == '+':
+        REFRESH_INTERVAL_MS += 100
+
+    if key == '-':
+        REFRESH_INTERVAL_MS -= 100 if REFRESH_INTERVAL_MS > 100 else 0
+
+    if key in ('up', 'down', 'left', 'right', 'insert', 'delete', 'enter', 'esc', '+', '-', ' '):
+        main_view.update(key_stroke=key, properties={'refresh_rate': REFRESH_INTERVAL_MS})
 
 
 def update(*args):
     global main_view
     global loop
+    global REFRESH_INTERVAL_MS
 
-    loop.widget = main_view.get_view()
-    loop.set_alarm_in(REFRESH_INTERVAL, update)
+    loop.widget = main_view.get_view(properties={'refresh_rate': REFRESH_INTERVAL_MS})
+    loop.set_alarm_in(REFRESH_INTERVAL_MS / 1000, update)
 
 
 PALETTE = palette_configuration('palette.config')

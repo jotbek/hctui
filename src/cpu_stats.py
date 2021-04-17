@@ -1,7 +1,8 @@
 import psutil
 
 
-cpu_values_list = [0.0] * 20
+MAX_CACHED_VALUES = 20
+cpu_values_list = [0.0] * MAX_CACHED_VALUES
 
 
 def cpu_count():
@@ -21,7 +22,8 @@ def cpu_usage_total():
 
 
 def cpu_values():
-    cpu_values_list.pop(0)
+    if len(cpu_values_list) >= MAX_CACHED_VALUES:
+        cpu_values_list.pop(0)
     cpu_values_list.append(cpu_usage_total())
     return cpu_values_list
 

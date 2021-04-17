@@ -1,22 +1,24 @@
 import urwid
 
-MENU_TEXT = 'Space: Stop/Start auto refresh  |  Q: Exit'
-
 
 class HintPanelView:
     def __init__(self):
-        self.menu_widget = urwid.Text(MENU_TEXT)
+        self.menu_widget = urwid.Text('')
 
-    def get_view(self, clear_key=True):
+    def get_view(self, clear_key=True, properties={}):
         if clear_key:
-            self.set_menu_text()
+            self.set_menu_text(properties=properties)
         return self.menu_widget
 
-    def update(self, key_stroke=None):
-        self.set_menu_text(key_stroke)
+    def update(self, key_stroke=None, properties={}):
+        self.set_menu_text(key_stroke, properties)
 
-    def set_menu_text(self, key_stroke=None):
+    def set_menu_text(self, key_stroke=None, properties={}):
         key_name = 'press key'
         if key_stroke != None:
             key_name = key_stroke if key_stroke != ' ' else 'space'
-        self.menu_widget.set_text(MENU_TEXT + '  |    << ' + key_name + ' >>')
+        self.menu_widget.set_text(
+            'Refresh ration (+/-): '
+            + str(properties.get('refresh_rate', '???'))
+            + 'ms  |    << '
+            + key_name + ' >>')

@@ -6,12 +6,13 @@ import math
 
 external_dependencies = {}
 widget_definition_cache = {}
+no_widget_caching = True
 
 
 def load(path):
     global widget_definition_cache
     if path not in widget_definition_cache or widget_definition_cache[path][1]:
-        widget_definition_cache[path] = (load_json(path), True)
+        widget_definition_cache[path] = (load_json(path), no_widget_caching)
 
     widget_interpreted = interpret_definition(widget_definition_cache[path][0])
     return widget_interpreted
@@ -60,12 +61,12 @@ def read_content(widget_def):
 
 def create_graph(graph_widget_def):
     properties = get_properties(graph_widget_def)
-    cpuBarGraph = urwid.BarGraph(
+    graph = urwid.BarGraph(
         ['bg background', 'bg 1', 'bg 2'],
         satt={(1, 0): 'bg 1 smooth', (2, 0): 'bg 2 smooth'})
     graph_data = properties.get('value', [0] * 20)
-    cpuBarGraph.set_data(list(zip(graph_data, [0] * len(graph_data))), 100.0)
-    return urwid.BoxAdapter(cpuBarGraph, 5)
+    graph.set_data(list(zip(graph_data, [0] * len(graph_data))), 100.0)
+    return urwid.BoxAdapter(graph, int(properties.get('height', 2)))
 
 
 def create_box(box_widget_def):
