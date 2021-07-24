@@ -6,7 +6,7 @@
         "always_refresh": true
     },
     "import_source": [
-        { "name": "cpu_stats", "path": "cpu_stats" }
+        { "name": "cpu_stats", "path": "cpu_stats", "enable_cache": true }
     ],
     "content": [
         {

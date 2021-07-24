@@ -1,16 +1,19 @@
 import urwid
 import json
 import importlib
+import uuid
 from types import SimpleNamespace
 import math
 
 external_dependencies = {}
 widget_definition_cache = {}
 no_widget_caching = True
+session_id = None
 
 
 def load(path):
     global widget_definition_cache
+
     if path not in widget_definition_cache or widget_definition_cache[path][1]:
         widget_definition_cache[path] = (load_json(path), no_widget_caching)
 
@@ -42,6 +45,8 @@ def import_modules(widget_def):
         return modules
     for current_module in widget_def.import_source:
         modules[current_module.name] = importlib.import_module(current_module.name, current_module)
+        if current_module.enable_cache:
+            eval(current_module.name + '.enable_cache(True, \'' + str(uuid.uuid4()) + '\')', {'__builtins__': None}, modules)
     return modules
 
 
