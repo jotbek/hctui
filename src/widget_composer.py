@@ -7,7 +7,7 @@ import math
 
 external_dependencies = {}
 widget_definition_cache = {}
-no_widget_caching = True
+widget_caching = False
 session_id = None
 
 
@@ -15,7 +15,7 @@ def load(path):
     global widget_definition_cache
 
     if path not in widget_definition_cache or widget_definition_cache[path][1]:
-        widget_definition_cache[path] = (load_json(path), no_widget_caching)
+        widget_definition_cache[path] = (load_json(path), widget_caching)
 
     widget_interpreted = interpret_definition(widget_definition_cache[path][0])
     return widget_interpreted
@@ -46,7 +46,7 @@ def import_modules(widget_def):
     for current_module in widget_def.import_source:
         modules[current_module.name] = importlib.import_module(current_module.name, current_module)
         if current_module.enable_cache:
-            eval(current_module.name + '.enable_cache(True, \'' + str(uuid.uuid4()) + '\')', {'__builtins__': None}, modules)
+            eval(current_module.name + '.init_cache_session(\'' + str(uuid.uuid4()) + '\')', {'__builtins__': None}, modules)
     return modules
 
 
@@ -163,5 +163,6 @@ def get_properties(widget_def):
 
 def resolve_token(widget_def, token):
     global external_dependencies
+
     result = eval(token[1:], {'__builtins__': None}, external_dependencies)
     return result

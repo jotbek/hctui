@@ -14,7 +14,7 @@
             "content": [
                 {
                     "widget_type": "box",
-                    "properties": "title=Core utilization",
+                    "properties": "title=CPU utilization",
                     "content": {
                         "widget_type": "repeat_columns",
                         "properties": "variable=i;from=0;to=@cpu_stats.cpu_count()-1;no_columns=1;loop_in_columns=0",
@@ -61,7 +61,7 @@
                     "content": [
                         {
                             "widget_type": "text",
-                            "properties": "value=@' core#' + str(i) + ':'"
+                            "properties": "value=@' c|' + str(i) + ':'"
                         },
                         {
                             "widget_type": "progress",
