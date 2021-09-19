@@ -2,7 +2,7 @@ import urwid
 import HintPanelView
 import WidgetsAreaView
 
-HCTUI_VERSION = '0.0.5'
+HCTUI_VERSION = '0.1.5'
 
 
 class MainView:
