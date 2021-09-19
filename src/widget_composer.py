@@ -7,7 +7,7 @@ import math
 
 external_dependencies = {}
 widget_definition_cache = {}
-widget_caching = False
+widget_caching = True
 session_id = None
 
 

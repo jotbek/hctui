@@ -1,9 +1,10 @@
-import uuid
-
 import psutil
+import time
 
-MAX_CACHED_VALUES = 20
-cpu_values_list = [0.0] * MAX_CACHED_VALUES
+
+MAX_CACHE_ITEMS = 100
+NO_MAX_CACHED_CPU_VALUES = 20
+cpu_values_list = [0.0] * NO_MAX_CACHED_CPU_VALUES
 cache_enabled = False
 session_id = None
 cache = {}
@@ -32,7 +33,7 @@ def cpu_values():
 
 
 def cpu_values_internal():
-    if len(cpu_values_list) >= MAX_CACHED_VALUES:
+    if len(cpu_values_list) >= NO_MAX_CACHED_CPU_VALUES:
         cpu_values_list.pop(0)
     cpu_values_list.append(cpu_usage_total())
     return cpu_values_list
@@ -44,30 +45,40 @@ def init_cache_session(session_identifier):
     global session_id
     global cache
     cache_enabled = True
-    session_id = uuid.UUID(session_identifier)
+    session_id = session_identifier
 
 
 def disable_cache():
     global cache_enabled
     global session_id
-    global cache
     cache_enabled = False
     session_id = None
-    cache.clear()
 
 
 def try_get_from_cache(session_identifier, function_name, action):
-    global cache
-    if session_identifier is None:
+    global cache_enabled
+    if cache_enabled:
+        return get_from_cache(session_identifier + '.' + function_name, action)
+    else:
         return action()
 
-    key = function_name + str(session_identifier)
-    if not use_cache(session_identifier, function_name):
-        cache[key] = action()
-    return cache[key]
 
-
-def use_cache(session_identifier, function_name):
-    global session_id
+def get_from_cache(key, action):
     global cache
-    return cache_enabled and session_identifier == session_id and function_name + str(session_id) in cache
+    if len(cache) >= MAX_CACHE_ITEMS:
+        cleanup_cache()
+
+    if key not in cache:
+        cache[key] = (action(), time.time())
+
+    return cache[key][0]
+
+
+# Remove items older than 120 sec
+def cleanup_cache():
+    global cache
+
+    time_sec = time.time()
+    for key, value in list(cache.items()):
+        if time_sec - value[1] > 10:
+            cache.pop(key)

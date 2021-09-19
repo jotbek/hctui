@@ -36,7 +36,7 @@
                             },
                             {
                                 "widget_type": "text",
-                                "properties": "align=center;value=@'total: ' + str(cpu_stats.cpu_usage_total())"
+                                "properties": "align=center;value=@'total usage: ' + str(cpu_stats.cpu_usage_total())"
                             }
                         ]
                     }
@@ -73,6 +73,7 @@
         },
         {
             "widget_type": "box",
+            "properties": "title=CPU OVERALL GRAPH",
             "content": {
                 "widget_type": "graph",
                 "properties": "value=@cpu_stats.cpu_values();height=@cpu_stats.cpu_count()"
