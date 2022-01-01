@@ -17,5 +17,7 @@ class MainView:
                 footer=self.bottom_menu_view.get_view(properties=properties)),
             title='hctui v.' + HCTUI_VERSION)
 
-    def update(self, key_stroke=None, properties={}):
+    def update(self, key_stroke=None, properties=None):
+        if properties is None:
+            properties = {}
         self.bottom_menu_view.update(key_stroke=key_stroke, properties=properties)

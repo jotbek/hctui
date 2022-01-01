@@ -9,6 +9,7 @@ external_dependencies = {}
 widget_definition_cache = {}
 widget_caching = True
 session_id = None
+modules = {}
 
 
 def load(path):
@@ -17,7 +18,7 @@ def load(path):
     if path not in widget_definition_cache or widget_definition_cache[path][1]:
         widget_definition_cache[path] = (load_json(path), widget_caching)
 
-    widget_interpreted = interpret_definition(widget_definition_cache[path][0])
+    widget_interpreted = interpret_definition(widget_definition_cache[path][0], widget_definition_cache[path][1])
     return widget_interpreted
 
 
@@ -27,11 +28,11 @@ def load_json(path):
 
 
 # noinspection PyTypeChecker
-def interpret_definition(widget_definition):
+def interpret_definition(widget_definition, use_cache=False):
     global external_dependencies
     # Read definition
     # Read import source and add math library for math operations
-    external_dependencies = import_modules(widget_definition)
+    external_dependencies = import_modules(widget_definition, use_cache)
     external_dependencies['math'] = math
     external_dependencies['str'] = str
 
@@ -39,14 +40,24 @@ def interpret_definition(widget_definition):
     return urwid.Filler(create_pile(widget_definition), 'top')
 
 
-def import_modules(widget_def):
-    modules = {}
+def import_modules(widget_def, use_cached_modules=False):
+    global modules
+
     if not hasattr(widget_def, 'import_source'):
-        return modules
+        return {}
+
+    # Reload when force reload or no modules loaded (first load dict modules empty)
+    if not use_cached_modules or not modules:
+        for current_module in widget_def.import_source:
+            modules[current_module.name] = importlib.import_module(current_module.name, current_module)
+
     for current_module in widget_def.import_source:
-        modules[current_module.name] = importlib.import_module(current_module.name, current_module)
         if current_module.enable_cache:
-            eval(current_module.name + '.init_cache_session(\'' + str(uuid.uuid4()) + '\')', {'__builtins__': None}, modules)
+            eval(
+                current_module.name + '.init_cache_session(\'' + str(uuid.uuid4()) + '\')',
+                {'__builtins__': None},
+                modules)
+
     return modules
 
 
