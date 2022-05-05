@@ -1,82 +1,86 @@
 {
-    "definition" : {
-        "name": "base_cpu_widget",
-        "widget_version": "0.2",
-        "language_version": 1
-    },
-    "import_source": [
-        { "name": "cpu_stats", "path": "cpu_stats", "enable_cache": true }
-    ],
-    "content": [
+  "definition": {
+    "name": "base_widget",
+    "widget_version": "0.2",
+    "language_version": 1
+  },
+  "import_source": [
+    {
+      "name": "cpu_stats",
+      "path": "cpu_stats",
+      "enable_cache": true
+    }
+  ],
+  "content": [
+    {
+      "widget_type": "columns",
+      "content": [
         {
-            "widget_type": "columns",
+          "widget_type": "box",
+          "properties": "title=CPU utilization",
+          "content": {
+            "widget_type": "repeat_columns",
+            "properties": "variable=i;from=0;to=@cpu_stats.cpu_count()-1;no_columns=1;loop_in_columns=0",
+            "content": {
+              "widget_type": "text",
+              "properties": "align=center;value=@'core #' + str(i) + ': ' + str(cpu_stats.cpu_usage_per_core()[i])"
+            }
+          }
+        },
+        {
+          "widget_type": "box",
+          "properties": "title=General usage",
+          "content": {
+            "widget_type": "pile",
             "content": [
-                {
-                    "widget_type": "box",
-                    "properties": "title=CPU utilization",
-                    "content": {
-                        "widget_type": "repeat_columns",
-                        "properties": "variable=i;from=0;to=@cpu_stats.cpu_count()-1;no_columns=1;loop_in_columns=0",
-                        "content": {
-                            "widget_type": "text",
-                            "properties": "align=center;value=@'core #' + str(i) + ': ' + str(cpu_stats.cpu_usage_per_core()[i])"
-                        }
-                    }
-                },
-                {
-                    "widget_type": "box",
-                    "properties": "title=General usage",
-                    "content": {
-                        "widget_type": "pile",
-                        "content": [
-                            {
-                                "widget_type": "progress",
-                                "properties": "style_normal=progress normal;style_complete=progress complete;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
-                            },
-                            {
-                                "widget_type": "text",
-                                "properties": "align=center;value=@'total usage: ' + str(cpu_stats.cpu_usage_total())"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "widget_type": "box",
-                    "content": {
-                        "widget_type": "graph",
-                        "properties": "value=@cpu_stats.cpu_values();height=@cpu_stats.cpu_count()"
-                    }
-                }
+              {
+                "widget_type": "progress",
+                "properties": "style_normal=progress normal;style_complete=progress complete;max=100;title=Overall;value=@cpu_stats.cpu_usage_total()"
+              },
+              {
+                "widget_type": "text",
+                "properties": "align=center;value=@'total usage: ' + str(cpu_stats.cpu_usage_total())"
+              }
             ]
+          }
         },
         {
-            "widget_type": "box",
-            "properties": "title=CPU_STATS3",
-            "content": {
-                "widget_type": "repeat_columns",
-                "properties": "variable=i;from=0;to=@cpu_stats.cpu_count()-1;no_columns=@cpu_stats.cpu_count()",
-                "content": {
-                    "widget_type": "columns",
-                    "content": [
-                        {
-                            "widget_type": "text",
-                            "properties": "value=@' c|' + str(i) + ':'"
-                        },
-                        {
-                            "widget_type": "progress",
-                            "properties": "max=100;style_normal=progress normal;style_complete=progress complete;value=@cpu_stats.cpu_usage_per_core()[i]"
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "widget_type": "box",
-            "properties": "title=CPU OVERALL GRAPH",
-            "content": {
-                "widget_type": "graph",
-                "properties": "value=@cpu_stats.cpu_values();height=@cpu_stats.cpu_count()"
-            }
+          "widget_type": "box",
+          "content": {
+            "widget_type": "graph",
+            "properties": "value=@cpu_stats.cpu_values();height=@cpu_stats.cpu_count()"
+          }
         }
-    ]
+      ]
+    },
+    {
+      "widget_type": "box",
+      "properties": "title=CPU_STATS3",
+      "content": {
+        "widget_type": "repeat_columns",
+        "properties": "variable=i;from=0;to=@cpu_stats.cpu_count()-1;no_columns=@cpu_stats.cpu_count()",
+        "content": {
+          "widget_type": "columns",
+          "content": [
+            {
+              "widget_type": "text",
+              "properties": "value=@' c|' + str(i) + ':'"
+            },
+            {
+              "widget_type": "progress",
+              "properties": "max=100;style_normal=progress normal;style_complete=progress complete;value=@cpu_stats.cpu_usage_per_core()[i]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "widget_type": "box",
+      "properties": "title=CPU OVERALL GRAPH",
+      "content": {
+        "widget_type": "graph",
+        "properties": "value=@cpu_stats.cpu_values();height=@cpu_stats.cpu_count()"
+      }
+    }
+  ]
 }

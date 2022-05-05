@@ -1,0 +1,37 @@
+{
+  "definition": {
+    "name": "net_widget",
+    "widget_version": "0.1",
+    "language_version": 1
+  },
+  "import_source": [
+    {
+      "name": "net_stats",
+      "path": "net_stats",
+      "enable_cache": false
+    }
+  ],
+  "content": [
+    {
+      "widget_type": "box",
+      "properties": "title=@'NET Usage [ interface: ' + net_stats.get_default_interface() + ' ]'",
+      "content": {
+        "widget_type": "pile",
+        "content": [
+          {
+            "widget_type": "text",
+            "properties": "align=left;value=@' Main interface: ' + str(net_stats.get_default_interface())"
+          },
+          {
+            "widget_type": "text",
+            "properties": "align=left;value=@' Download speed: ' + str(net_stats.get_current_bandwidth()[0]) + ' ' + net_stats.get_current_bandwidth()[1] + '/s'"
+          },
+          {
+            "widget_type": "text",
+            "properties": "align=left;value=@' Upload speed: ' + str(net_stats.get_current_bandwidth()[2]) + ' ' + net_stats.get_current_bandwidth()[3] + '/s'"
+          }
+        ]
+      }
+    }
+  ]
+}
