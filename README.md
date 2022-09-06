@@ -9,4 +9,4 @@ MODULES TODO:
  - CPU stats (already done but still some changes)
  - MEM stats
  - DISK stats
- - NET stats
+ - NET stats (in progress)
