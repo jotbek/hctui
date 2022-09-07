@@ -29,6 +29,10 @@
           {
             "widget_type": "text",
             "properties": "align=left;value=@' Upload speed: ' + str(net_stats.get_current_bandwidth()[2]) + ' ' + net_stats.get_current_bandwidth()[3] + '/s'"
+          },
+          {
+            "widget_type": "graph",
+            "properties": "value=@net_stats.in_out_historical();height=20"
           }
         ]
       }
