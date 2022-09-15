@@ -49,7 +49,7 @@ def get_current_bandwidth_bytes():
 
 
 def convert_size(size_bytes):
-    default_result = "~0 ", "B"
+    default_result = "~0", "B"
 
     if size_bytes == 0:
         return default_result

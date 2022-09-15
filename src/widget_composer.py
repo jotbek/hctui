@@ -5,20 +5,37 @@ import uuid
 from types import SimpleNamespace
 import math
 
+
 external_dependencies = {}
 widget_definition_cache = {}
 widget_caching = True
 session_id = None
 modules = {}
+inception = 0
 
 
 def load(path):
     global widget_definition_cache
+    global inception
+    global session_id
+
+    # generate new session identifier if 0 recursion entry level
+    if inception == 0:
+        session_id = str(uuid.uuid4())
+
+    # increase recursion level
+    inception += 1
 
     if path not in widget_definition_cache or widget_definition_cache[path][1]:
         widget_definition_cache[path] = (load_json(path), widget_caching)
 
-    widget_interpreted = interpret_definition(widget_definition_cache[path][0], widget_definition_cache[path][1])
+    widget_interpreted = interpret_definition(
+        inception > 1,
+        widget_definition_cache[path][0],
+        widget_definition_cache[path][1])
+
+    # decrease recursion level
+    inception -= 1
     return widget_interpreted
 
 
@@ -28,33 +45,37 @@ def load_json(path):
 
 
 # noinspection PyTypeChecker
-def interpret_definition(widget_definition, use_cache=False):
+def interpret_definition(is_internal, widget_definition, use_cache=False):
     global external_dependencies
     # Read definition
     # Read import source and add math library for math operations
-    external_dependencies = import_modules(widget_definition, use_cache)
+    external_dependencies.update(import_modules(widget_definition, use_cache))
     external_dependencies['math'] = math
     external_dependencies['str'] = str
 
     # Read content (widget)
-    return urwid.Filler(create_pile(widget_definition), 'top')
+    if is_internal:
+        return create_pile(widget_definition)
+    else:
+        return urwid.Filler(create_pile(widget_definition), 'top')
 
 
 def import_modules(widget_def, use_cached_modules=False):
     global modules
+    global session_id
 
     if not hasattr(widget_def, 'import_source'):
         return {}
 
     # Reload when force reload or no modules loaded (first load dict modules empty)
-    if not use_cached_modules or not modules:
-        for current_module in widget_def.import_source:
+    for current_module in widget_def.import_source:
+        if current_module.name not in modules:
             modules[current_module.name] = importlib.import_module(current_module.name, current_module)
 
     for current_module in widget_def.import_source:
         if current_module.enable_cache:
             eval(
-                current_module.name + '.init_cache_session(\'' + str(uuid.uuid4()) + '\')',
+                current_module.name + '.init_cache_session(\'' + session_id + '\')',
                 {'__builtins__': None},
                 modules)
 
@@ -70,9 +91,17 @@ def read_content(widget_def):
         'progress': lambda: create_progress(widget_def),
         'divider': lambda: create_divider(widget_def),
         'repeat_columns': lambda: create_repeat_columns(widget_def),
-        'graph': lambda: create_graph(widget_def)
+        'graph': lambda: create_graph(widget_def),
+        'widget': lambda: create_widget(widget_def)
     }
     return switcher.get(widget_def.widget_type, 'Invalid widget type -> ' + widget_def.widget_type)()
+
+
+def create_widget(widget_def):
+    properties = get_properties(widget_def)
+    path = properties.get('path')
+    result = load(path)
+    return result
 
 
 def create_graph(graph_widget_def):
