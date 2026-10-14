@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: storage
+sources: []
+widgets:
+- type: responsive
+  properties:
+    min_width: 100
+    spacing: 1
+  children:
+  - type: include
+    properties:
+      path: disk.yaml
+  - type: include
+    properties:
+      path: filesystems.yaml

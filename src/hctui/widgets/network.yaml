@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: network
+sources: [network, system]
+widgets:
+- type: responsive
+  properties:
+    min_width: 80
+    spacing: 1
+  children:
+  - type: stack
+    children:
+    - type: box
+      properties:
+        title: '@f"Network: {network.interface}"'
+      children:
+      - type: stack
+        children:
+        - type: text
+          properties:
+            value: >-
+              @f"DL {format_rate(network.download_rate)} | UL {format_rate(network.upload_rate)}"
+        - type: sparkline
+          properties:
+            label: DL
+            value: '@network.download_history'
+            max: '@network.history_max'
+        - type: sparkline
+          properties:
+            label: UL
+            value: '@network.upload_history'
+            max: '@network.history_max'
+    - type: box
+      properties:
+        title: IPv4 addresses
+      children:
+      - type: stack
+        children:
+        - type: table
+          properties:
+            headers: [Interface, Address]
+            rows: '@system.addresses'
+            max_rows: 8
+            empty: No IPv4 addresses
+            widths: [12, 0]
+  - type: include
+    properties:
+      path: wifi.yaml

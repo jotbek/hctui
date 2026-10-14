@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: disk
+sources: [disk]
+widgets:
+- type: box
+  properties:
+    title: '@f"Filesystem: {disk.path}"'
+  children:
+  - type: stack
+    children:
+    - type: table
+      properties:
+        headers: [Metric, Value]
+        rows: >-
+          @[("Total", format_bytes(disk.total)), ("Used", format_bytes(disk.used)), ("Free", format_bytes(disk.free))]
+        max_rows: 3
+        empty: No data
+        widths: [12, 0]
+    - type: progress
+      properties:
+        value: '@disk.usage'
+    - type: text
+      properties:
+        value: '@f"Read {format_rate(disk.read_rate)} | Write {format_rate(disk.write_rate)}"'

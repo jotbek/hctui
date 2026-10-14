@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: overview
+sources: [cpu, memory, disk, network, temperature, load, alerts]
+widgets:
+- type: status
+  properties:
+    value: '@alerts.summary'
+    state: '@alerts.level'
+- type: text
+  properties:
+    value: '@f"CPU {cpu.usage:.0f}% | RAM {memory.usage:.0f}%"'
+- type: text
+  properties:
+    value: '@f"Temp {format_temperature(temperature.current)} | Load {load.one:.2f}"'
+- type: text
+  properties:
+    value: >-
+      @f"DL {format_rate(network.download_rate)} | UL {format_rate(network.upload_rate)}"
+- type: text
+  properties:
+    value: '@f"Disk {disk.usage:.0f}% | Free {format_bytes(disk.free)}"'
+- type: sparkline
+  properties:
+    label: CPU
+    value: '@cpu.history'
+    max: 100

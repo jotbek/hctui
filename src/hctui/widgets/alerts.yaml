@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: alerts
+sources: [alerts]
+widgets:
+- type: status
+  properties:
+    value: '@alerts.summary'
+    state: '@alerts.level'
+- type: box
+  properties:
+    title: Active alerts
+  children:
+  - type: stack
+    children:
+    - type: table
+      properties:
+        headers: [Metric, State, Value]
+        rows: '@alerts.rows'
+        max_rows: 8
+        empty: No active alerts
+        widths: [0, 9, 12]
+        compact_columns: [0, 1, 2]
+- type: box
+  properties:
+    title: Recent transitions (since start)
+  children:
+  - type: stack
+    children:
+    - type: table
+      properties:
+        headers: [Elapsed, Metric, State]
+        rows: '@alerts.events'
+        max_rows: 8
+        empty: No transitions
+        widths: [10, 0, 10]

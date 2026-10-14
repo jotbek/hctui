@@ -1,0 +1,22 @@
+name: Python checks
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.9', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '${{ matrix.python }}'
+      - run: python -m pip install -e '.[dev]'
+      - run: python -m pytest -q
+      - run: ruff check src tests scripts
+      - run: ruff format --check src tests scripts
+      - run: python scripts/generate_widget_schema.py --check
+      - run: hctui --check
+      - run: hctui --widget examples/compact.yaml --check
+      - run: hctui --widget examples/pages.yaml --check
+      - run: python -m build

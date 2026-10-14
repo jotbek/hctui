@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: wifi
+sources: [wifi]
+widgets:
+- type: box
+  properties:
+    title: Wi-Fi
+  children:
+  - type: stack
+    children:
+    - type: status
+      properties:
+        value: '@wifi.message'
+        state: '@wifi.state'
+    - type: table
+      properties:
+        headers: [Field, Value]
+        rows: >-
+          @[("Interface", wifi.interface), ("SSID", wifi.ssid), ("Signal", wifi.signal), ("Quality (raw)",
+          wifi.quality)]
+        max_rows: 4
+        empty: No data
+        widths: [14, 0]

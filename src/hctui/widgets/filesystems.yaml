@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: filesystems
+sources: [filesystems]
+widgets:
+- type: box
+  properties:
+    title: Local filesystems
+  children:
+  - type: stack
+    children:
+    - type: table
+      properties:
+        headers: [Mount, Used, Free, Inodes]
+        rows: '@filesystems.rows'
+        max_rows: 16
+        empty: Loading filesystem usage
+        widths: [0, 5, 12, 7]
+        compact_columns: [0, 1, 2]

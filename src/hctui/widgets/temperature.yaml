@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: temperature
+sources: [temperature]
+widgets:
+- type: box
+  properties:
+    title: Temperature
+  children:
+  - type: stack
+    children:
+    - type: text
+      properties:
+        value: '@f"{temperature.label}: {format_temperature(temperature.current)}"'
+    - type: sparkline
+      properties:
+        value: '@temperature.history'
+        max: 100
+    - type: table
+      properties:
+        headers: [Sensor, Temp]
+        rows: '@temperature.rows'
+        max_rows: 16
+        empty: No sensors available
+        widths: [0, 9]

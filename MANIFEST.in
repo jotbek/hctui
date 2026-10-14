@@ -1,0 +1,7 @@
+include src/hctui.py
+include .editorconfig .gitattributes
+recursive-include docs *.md
+recursive-include docs *.png
+recursive-include examples *.yaml
+recursive-include scripts *.py
+recursive-include tests *.py

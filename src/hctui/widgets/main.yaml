@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=../widget_schema.json
+# Pages are built once, on first use. Tab/Shift+Tab or 1-8 switches pages.
+schema_version: 2
+name: system_monitor
+intervals:
+  cpu: 1
+  memory: 2
+  network: 1
+  disk: 5
+  temperature: 5
+  load: 2
+  system: 30
+  processes: 5
+  filesystems: 10
+  services: 10
+  wifi: 10
+  monitor: 5
+pages:
+- name: Overview
+  widgets:
+  - type: include
+    properties:
+      path: overview.yaml
+- name: CPU
+  widgets:
+  - type: include
+    properties:
+      path: cpu.yaml
+- name: Memory
+  widgets:
+  - type: include
+    properties:
+      path: memory.yaml
+- name: Network
+  widgets:
+  - type: include
+    properties:
+      path: network.yaml
+- name: Storage
+  widgets:
+  - type: include
+    properties:
+      path: storage.yaml
+- name: Processes
+  widgets:
+  - type: include
+    properties:
+      path: processes.yaml
+- name: System
+  widgets:
+  - type: include
+    properties:
+      path: system.yaml
+- name: Alerts
+  widgets:
+  - type: include
+    properties:
+      path: alerts.yaml

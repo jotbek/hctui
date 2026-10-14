@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=../src/hctui/widget_schema.json
+schema_version: 2
+name: Example paged dashboard
+intervals:
+  cpu: 2
+  temperature: 10
+pages:
+  - name: Summary
+    sources: [cpu, memory]
+    widgets:
+      - type: responsive
+        properties:
+          min_width: 72
+          spacing: 2
+        children:
+          - type: box
+            properties:
+              title: CPU
+            children:
+              - type: sparkline
+                properties:
+                  value: '@cpu.history'
+                  max: 100
+                  label: History
+          - type: box
+            properties:
+              title: RAM
+            children:
+              - type: text
+                properties:
+                  value: "@f'{format_bytes(memory.used)} / {format_bytes(memory.total)}'"
+  - name: Details
+    sources: [cpu, temperature]
+    widgets:
+      - type: table
+        properties:
+          headers: [CPU, Usage]
+          rows: '@cpu.rows'
+          widths: [8, 0]
+          compact_columns: [0, 1]
+      - type: conditional
+        properties:
+          visible: '@temperature.current is not None'
+        children:
+          - type: text
+            properties:
+              value: "@f'Temperature: {format_temperature(temperature.current)}'"

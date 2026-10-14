@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=../src/hctui/widget_schema.json
+schema_version: 2
+name: Compact CPU and memory
+sources: [cpu, memory]
+intervals:
+  cpu: 2
+  memory: 4
+widgets:
+  - type: box
+    properties:
+      title: Summary
+    children:
+      - type: stack
+        children:
+          - type: text
+            properties:
+              value: "@f'CPU {cpu.usage:.1f}% | RAM {memory.usage:.1f}%'"
+          - type: sparkline
+            properties:
+              label: CPU
+              value: '@cpu.history'
+              max: 100
+          - type: text
+            properties:
+              value: "@f'Available: {format_bytes(memory.available)}'"

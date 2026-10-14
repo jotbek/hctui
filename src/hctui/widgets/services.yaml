@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: services
+sources: [services]
+widgets:
+- type: box
+  properties:
+    title: Services
+  children:
+  - type: stack
+    children:
+    - type: text
+      properties:
+        value: '@services.message'
+    - type: table
+      properties:
+        headers: [Service, State, Detail]
+        rows: '@services.rows'
+        max_rows: 32
+        empty: No service data
+        widths: [0, 11, 10]
+        compact_columns: [0, 1]

@@ -1,0 +1,12 @@
+[
+  {"name":"Midnight","background":"#111820","foreground":"#d4dde8","border":"#52718d","accent":"#79d7ef","muted":"#8c9aaa","selected":"#24476c","positive":"#84d59d","warning":"#f4ca73","negative":"#f08282"},
+  {"name":"Nord","background":"#2e3440","foreground":"#eceff4","border":"#81a1c1","accent":"#88c0d0","muted":"#8891a1","selected":"#434c5e","positive":"#a3be8c","warning":"#ebcb8b","negative":"#bf616a"},
+  {"name":"Dracula","background":"#282a36","foreground":"#f8f8f2","border":"#bd93f9","accent":"#8be9fd","muted":"#9299ba","selected":"#44475a","positive":"#50fa7b","warning":"#f1fa8c","negative":"#ff5555"},
+  {"name":"Solarized Dark","background":"#002b36","foreground":"#93a1a1","border":"#268bd2","accent":"#2aa198","muted":"#839496","selected":"#073642","positive":"#859900","warning":"#b58900","negative":"#dc322f"},
+  {"name":"Solarized Light","background":"#fdf6e3","foreground":"#586e75","border":"#268bd2","accent":"#006c79","muted":"#657b83","selected":"#eee8d5","positive":"#527000","warning":"#906800","negative":"#c02b29"},
+  {"name":"Gruvbox","background":"#282828","foreground":"#ebdbb2","border":"#d79921","accent":"#83a598","muted":"#a89984","selected":"#504945","positive":"#b8bb26","warning":"#fabd2f","negative":"#fb4934"},
+  {"name":"Monokai","background":"#272822","foreground":"#f8f8f2","border":"#a6e22e","accent":"#66d9ef","muted":"#a6a69a","selected":"#49483e","positive":"#a6e22e","warning":"#e6db74","negative":"#f92672"},
+  {"name":"Tokyo Night","background":"#1a1b26","foreground":"#c0caf5","border":"#7aa2f7","accent":"#7dcfff","muted":"#939dbb","selected":"#283457","positive":"#9ece6a","warning":"#e0af68","negative":"#f7768e"},
+  {"name":"Catppuccin","background":"#1e1e2e","foreground":"#cdd6f4","border":"#cba6f7","accent":"#89dceb","muted":"#9399b2","selected":"#45475a","positive":"#a6e3a1","warning":"#f9e2af","negative":"#f38ba8"},
+  {"name":"High Contrast","background":"#000000","foreground":"#ffffff","border":"#ffffff","accent":"#00ffff","muted":"#bbbbbb","selected":"#003366","positive":"#00ff00","warning":"#ffff00","negative":"#ff6666"}
+]

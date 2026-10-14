@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: processes
+sources: [processes]
+widgets:
+- type: text
+  properties:
+    value: '@f"Processes {processes.count} | Scanned {processes.scanned}"'
+- type: text
+  properties:
+    value: 'CPU: 100% means one logical CPU'
+- type: responsive
+  properties:
+    min_width: 100
+    spacing: 1
+  children:
+  - type: box
+    properties:
+      title: Top CPU
+    children:
+    - type: stack
+      children:
+      - type: table
+        properties:
+          headers: [PID, Process, CPU%, RAM]
+          rows: '@processes.cpu_rows'
+          max_rows: 5
+          empty: Collecting process baseline
+          widths: [6, 0, 6, 11]
+          compact_columns: [1, 2, 3]
+  - type: box
+    properties:
+      title: Top RAM
+    children:
+    - type: stack
+      children:
+      - type: table
+        properties:
+          headers: [PID, Process, CPU%, RAM]
+          rows: '@processes.memory_rows'
+          max_rows: 5
+          empty: Loading processes
+          widths: [6, 0, 6, 11]
+          compact_columns: [1, 2, 3]

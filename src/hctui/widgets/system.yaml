@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: system
+sources:
+- system
+- temperature
+widgets:
+- type: responsive
+  properties:
+    min_width: 72
+    spacing: 1
+  children:
+  - type: box
+    properties:
+      title: System
+    children:
+    - type: stack
+      children:
+      - type: table
+        properties:
+          headers:
+          - Field
+          - Value
+          rows: '@system.rows'
+          max_rows: 8
+          empty: Loading system metadata
+          widths:
+          - 14
+          - 0
+  - type: stack
+    children:
+    - type: include
+      properties:
+        path: monitor.yaml
+    - type: include
+      properties:
+        path: services.yaml
+- type: conditional
+  properties:
+    visible: '@temperature.current is not None'
+  children:
+  - type: include
+    properties:
+      path: temperature.yaml

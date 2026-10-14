@@ -1,0 +1,1025 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "hctui widget definition, version 2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "name"
+  ],
+  "oneOf": [
+    {
+      "required": [
+        "widgets"
+      ]
+    },
+    {
+      "required": [
+        "pages"
+      ]
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2,
+      "type": "integer"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sources": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "alerts",
+          "cpu",
+          "disk",
+          "filesystems",
+          "load",
+          "memory",
+          "monitor",
+          "network",
+          "processes",
+          "services",
+          "system",
+          "temperature",
+          "wifi"
+        ]
+      }
+    },
+    "widgets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/widget"
+      }
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 9,
+      "items": {
+        "$ref": "#/$defs/page"
+      }
+    },
+    "intervals": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cpu": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "disk": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "filesystems": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "load": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "memory": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "monitor": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "network": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "processes": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "services": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "system": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "temperature": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "wifi": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        }
+      }
+    }
+  },
+  "$defs": {
+    "expression": {
+      "type": "string",
+      "pattern": "^@.+",
+      "maxLength": 4097
+    },
+    "widget": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "children"
+          ],
+          "properties": {
+            "type": {
+              "const": "box"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "title": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "not": {
+                        "pattern": "^@"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              }
+            },
+            "children": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/widget"
+              },
+              "maxItems": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "text"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "not": {
+                        "pattern": "^@"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "align": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "left",
+                        "center",
+                        "right"
+                      ],
+                      "not": {
+                        "pattern": "^@"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "children"
+          ],
+          "properties": {
+            "type": {
+              "const": "columns"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "spacing": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              }
+            },
+            "children": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/widget"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "children"
+          ],
+          "properties": {
+            "type": {
+              "const": "stack"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {}
+            },
+            "children": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/widget"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "progress"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "max": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "normal": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "not": {
+                        "pattern": "^@"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "complete": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "not": {
+                        "pattern": "^@"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "divider"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "char": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 1,
+                      "not": {
+                        "pattern": "^@"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "top": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "bottom": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "properties",
+            "template"
+          ],
+          "properties": {
+            "type": {
+              "const": "repeat"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "variable": {
+                  "type": "string",
+                  "minLength": 1,
+                  "not": {
+                    "enum": [
+                      "False",
+                      "None",
+                      "True",
+                      "abs",
+                      "alerts",
+                      "and",
+                      "as",
+                      "assert",
+                      "async",
+                      "await",
+                      "break",
+                      "class",
+                      "continue",
+                      "cpu",
+                      "def",
+                      "del",
+                      "disk",
+                      "elif",
+                      "else",
+                      "except",
+                      "filesystems",
+                      "finally",
+                      "float",
+                      "for",
+                      "format_bytes",
+                      "format_duration",
+                      "format_rate",
+                      "format_temperature",
+                      "from",
+                      "global",
+                      "if",
+                      "import",
+                      "in",
+                      "int",
+                      "is",
+                      "lambda",
+                      "len",
+                      "load",
+                      "max",
+                      "memory",
+                      "min",
+                      "monitor",
+                      "network",
+                      "nonlocal",
+                      "not",
+                      "or",
+                      "pass",
+                      "processes",
+                      "raise",
+                      "return",
+                      "round",
+                      "services",
+                      "str",
+                      "system",
+                      "temperature",
+                      "try",
+                      "while",
+                      "wifi",
+                      "with",
+                      "yield"
+                    ]
+                  },
+                  "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+                },
+                "start": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "stop": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "columns": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 256
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "column_order": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "spacing": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "stop"
+              ]
+            },
+            "template": {
+              "$ref": "#/$defs/widget"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "graph"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "maxItems": 600,
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "max": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "height": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 256
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "properties"
+          ],
+          "properties": {
+            "type": {
+              "const": "include"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "not": {
+                    "pattern": "^@"
+                  }
+                }
+              },
+              "required": [
+                "path"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "table"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "headers": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "minItems": 1,
+                      "maxItems": 16,
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "rows": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "maxItems": 128,
+                      "items": {
+                        "type": "array",
+                        "maxItems": 16,
+                        "items": {
+                          "type": [
+                            "string",
+                            "number",
+                            "boolean",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "widths": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "maxItems": 16,
+                      "items": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 512
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "compact_columns": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "maxItems": 16,
+                      "items": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 512
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "compact_width": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 20,
+                      "maximum": 512
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "max_rows": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 128
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "empty": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "not": {
+                        "pattern": "^@"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "status"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "not": {
+                        "pattern": "^@"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "state": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "warning",
+                        "critical",
+                        "unknown"
+                      ],
+                      "not": {
+                        "pattern": "^@"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "sparkline"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "maxItems": 600,
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "max": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "label": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "not": {
+                        "pattern": "^@"
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "ascii": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "children"
+          ],
+          "properties": {
+            "type": {
+              "const": "responsive"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "min_width": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 20,
+                      "maximum": 512
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                },
+                "spacing": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              }
+            },
+            "children": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/widget"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "children"
+          ],
+          "properties": {
+            "type": {
+              "const": "conditional"
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "visible": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "$ref": "#/$defs/expression"
+                    }
+                  ]
+                }
+              }
+            },
+            "children": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/widget"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "widgets"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 24
+        },
+        "sources": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "alerts",
+              "cpu",
+              "disk",
+              "filesystems",
+              "load",
+              "memory",
+              "monitor",
+              "network",
+              "processes",
+              "services",
+              "system",
+              "temperature",
+              "wifi"
+            ]
+          }
+        },
+        "widgets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/widget"
+          }
+        }
+      }
+    }
+  }
+}

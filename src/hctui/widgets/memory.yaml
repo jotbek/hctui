@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: memory
+sources: [memory]
+widgets:
+- type: responsive
+  properties:
+    min_width: 70
+    spacing: 1
+  children:
+  - type: box
+    properties:
+      title: RAM
+    children:
+    - type: stack
+      children:
+      - type: table
+        properties:
+          headers: [Metric, Value]
+          rows: >-
+            @[("Total", format_bytes(memory.total)), ("Used", format_bytes(memory.used)), ("Available",
+            format_bytes(memory.available))]
+          max_rows: 3
+          empty: No data
+          widths: [12, 0]
+      - type: progress
+        properties:
+          value: '@memory.usage'
+  - type: box
+    properties:
+      title: Swap
+    children:
+    - type: stack
+      children:
+      - type: table
+        properties:
+          headers: [Metric, Value]
+          rows: >-
+            @[("Total", format_bytes(memory.swap_total)), ("Used", format_bytes(memory.swap_used))]
+          max_rows: 2
+          empty: No data
+          widths: [12, 0]
+      - type: progress
+        properties:
+          value: '@memory.swap_usage'

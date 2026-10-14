@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: load
+sources: [load]
+widgets:
+- type: box
+  properties:
+    title: Load average
+  children:
+  - type: stack
+    children:
+    - type: text
+      properties:
+        value: '@f"Relative load: {load.normalized:.0f}%"'
+    - type: table
+      properties:
+        headers: [Period, Load]
+        rows: >-
+          @[("1 minute", f"{load.one:.2f}"), ("5 minutes", f"{load.five:.2f}"), ("15 minutes", f"{load.fifteen:.2f}")]
+        max_rows: 3
+        empty: No data
+        widths: [14, 0]
+    - type: sparkline
+      properties:
+        label: Load
+        value: '@load.history'

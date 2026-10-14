@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: cpu
+sources:
+- cpu
+- temperature
+widgets:
+- type: responsive
+  properties:
+    min_width: 72
+    spacing: 1
+  children:
+  - type: box
+    properties:
+      title: CPU
+    children:
+    - type: stack
+      children:
+      - type: text
+        properties:
+          value: '@f"Total {cpu.usage:.1f}% | CPUs {len(cpu.per_core)}"'
+      - type: text
+        properties:
+          value: '@f"Freq {round(cpu.frequency_mhz) if cpu.frequency_mhz is not None else ''N/A''} MHz
+            | Physical {cpu.physical_count if cpu.physical_count is not None else ''N/A''}"'
+      - type: sparkline
+        properties:
+          label: CPU
+          value: '@cpu.history'
+          max: 100
+      - type: table
+        properties:
+          headers:
+          - CPU
+          - Usage
+          rows: '@cpu.rows'
+          max_rows: 128
+          empty: No data
+          widths:
+          - 6
+          - 0
+  - type: stack
+    children:
+    - type: box
+      properties:
+        title: Temperature
+      children:
+      - type: stack
+        children:
+        - type: text
+          properties:
+            value: '@f"{temperature.label}: {format_temperature(temperature.current)}"'
+        - type: sparkline
+          properties:
+            value: '@temperature.history'
+            max: 100
+    - type: include
+      properties:
+        path: load.yaml

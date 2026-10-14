@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=../widget_schema.json
+schema_version: 2
+name: monitor
+sources: [monitor]
+widgets:
+- type: box
+  properties:
+    title: hctui resource use
+  children:
+  - type: stack
+    children:
+    - type: text
+      properties:
+        value: '@f"CPU {monitor.cpu_usage:.1f}% | RSS {format_bytes(monitor.rss)}"'
+    - type: table
+      properties:
+        headers: [Stage, Value]
+        rows: '@monitor.rows'
+        max_rows: 5
+        empty: No data
+        widths: [17, 0]
